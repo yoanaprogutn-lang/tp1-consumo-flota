@@ -3,7 +3,11 @@ public class Flota {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         final double PRECIO_LITRO = 1250.0;
-        int cantidadViajes;
+        String continuarPrograma;
+
+        do{
+            int cantidadViajes;
+
         do {
             System.out.print("ingrese la cantidad de viajes a procesar (mayor a cero): ");
              cantidadViajes = scanner.nextInt();
@@ -13,13 +17,13 @@ public class Flota {
          double maxConsumo = -1;
          String patenteMaxConsumo = "";
       for (int i = 1; i <= cantidadViajes; i++) {
-        System.out.println("\n----------------Datos del Viaje #" + i + "---");
+        System.out.println("\n---Datos del Viaje #" + i + "---");
         System.out.print("Ingrese la pantente:  ");
         scanner.nextLine();
         String patente = scanner.nextLine();
 
         System.out.print("Ingrese kilometraje inicial;  ");
-        int kmInicial = scanner.nextLine();
+        int kmInicial = scanner.nextInt();
 
         System.out.print("Ingrese Kilometraje final:  ");
         int kmFinal = scanner.nextInt();
@@ -37,6 +41,7 @@ public class Flota {
                  maxConsumo = consumo100km;
                  patenteMaxConsumo = patente;
              }
+
       }
 
         double costoTotal = totalLitros * PRECIO_LITRO;
@@ -52,8 +57,14 @@ public class Flota {
         System.out.printf("    Consumo promedio Flota      :   %10.2f L/100km%n", promedioConsumoFlota);
         System.out.println("    -------------------------------------");
         System.out.printf("    Camion de mayor consumo     : %s (%.2f L/100km)%n", patenteMaxConsumo, maxConsumo);
-        System.out.println("\n =====================================n");
+        System.out.println("\n =====================================");
 
+        System.out.println("\n¿Desea iniciar otra ejecucion/comparacion? (C para continuar / S para salir): ");
+            continuarPrograma = scanner.nextLine().trim();
+
+        } while (continuarPrograma.equalsIgnoreCase("C"));
+
+        System.out.println("\n¡Gracias por usar el sistema de gestión de flota!");
         scanner.close();
     }
 }
