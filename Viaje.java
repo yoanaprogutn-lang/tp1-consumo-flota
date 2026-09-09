@@ -56,7 +56,7 @@ public class Viaje {
             System.out.printf("     CAMION PATENTE :  %s%n", patente);
             System.out.printf("    Total kilometros recorridos :  %,10.2f km%n", kmRecorridos);
             System.out.printf("    Total de litros consumidos  :  %,10.2f L%n", consumo100km);
-            System.out.printf("    Costo total de combustible  :  $%9.2fd%n", costoTotal);
+            System.out.printf("    Costo total de combustible  :  $%9.2f %n", costoTotal);
             System.out.printf("    Costo por kilometro         :  $ %,9.2f%n", costoPorKM);
             System.out.printf("    Porcentaje de tanque        :  $ %,10.2f %% %n", costoPorKM);
 
