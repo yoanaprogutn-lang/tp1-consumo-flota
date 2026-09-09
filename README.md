@@ -35,10 +35,8 @@ segumiento de modificaciones de manera mas puntual y menos ambiguas.🐱‍🐉
 
 ### Nota sobre la Estructura del Proyecto
 Se completó la **Parte 3 (Flota.java)**. 
-La omisión previa surgió de una confusión en la consigna,
-al no reparar en que se requerían dos programas independientes 
-(`Viaje.java` y `Flota.java`), lo que derivó en código incompleto. 
-Ambas partes se encuentran ahora correctamente separadas y finalizadas.
+La omisión previa surgió de una confusión en la consigna,al no reparar en que se requerían dos programas independientes 
+(`Viaje.java` y `Flota.java`)entendí que era un solo programa que debía hacer todo, lo que derivó en código incompleto, Ambas partes se encuentran ahora correctamente separadas y finalizadas. Sin embargo me pareció correcto no sacar los errores que tuve anteriormente y dejarlos comentados, para que pudiera reparar en ellos.
 
 ### Detalle de Cambios
 - **Parte C Completa:** Implementación de la gestión de flota mediante 3 arreglos paralelos y métodos auxiliares.
