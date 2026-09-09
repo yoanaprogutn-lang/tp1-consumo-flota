@@ -1,77 +1,80 @@
 import java.util.Scanner;
+
 public class Flota {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        final double PRECIO_LITRO = 1250.0;
-        final double CAPACIDAD_TAQUE = 400.0;
-        String continuarPrograma;
-        int cantidadViajes;
 
-        do {
-            System.out.print("ingrese la cantidad de viajes a procesar (mayor a cero): ");
-            cantidadViajes = scanner.nextInt();
+    static final int CANTIDAD_CAMIONES = 6;
 
-            } while (cantidadViajes <= 0);
-            int totalKm = 0;
-            double totalLitros = 0;
-            double maxConsumo = -1;
-            String patenteMaxConsumo = "";
-            for (int i = 1; i <= cantidadViajes; i++) {
-                System.out.println("\n---Datos del Viaje #" + i + "---");
-                System.out.print("Ingrese la pantente:  ");
-                scanner.nextLine();
-                String patente = scanner.nextLine();
+    public static double calcularConsumo(double km, double litros) {
+        return (litros / km) * 100.0;
+    }
+    public static void cargarDatos(String[] patentes, double[] km, double[] litros, Scanner scanner) {
+        System.out.println("=== REGISTRO DE DATOS DE LA FLOTA ===");
+        for (int i = 0; i < CANTIDAD_CAMIONES; i++) {
+            System.out.println("\nCamión " + (i + 1) + ":");
+            System.out.print("Patente: ");
+            patentes[i] = scanner.nextLine();
+            System.out.print("Kilómetros recorridos: ");
+            km[i] = Double.parseDouble(scanner.nextLine());
 
-                System.out.print("Ingrese kilometraje inicial;  ");
-                int kmInicial = scanner.nextInt();
+            System.out.print("Litros consumidos: ");
+            litros[i] = Double.parseDouble(scanner.nextLine());
+        }
+    }
 
-                System.out.print("Ingrese Kilometraje final:  ");
-                int kmFinal = scanner.nextInt();
+    public static void mostrarInforme(String[] patentes, double[] km, double[] litros) {
+        double totalKm = 0.0;
+        double totalLitros = 0.0;
+        int idxMaxKm = 0;
+        int idxMinKm = 0;
 
-                System.out.print("Ingrese litros cargados:  ");
-                double litros = scanner.nextDouble();
+        for (int i = 0; i < CANTIDAD_CAMIONES; i++) {
+            totalKm += km[i];
+            totalLitros += litros[i];
 
-                double kmRecorridos = kmFinal - kmInicial;
-                double consumo100km = (litros / kmRecorridos) * 100;
-                double rendimiento = kmRecorridos / litros;
-                double costoTotal = litros * PRECIO_LITRO;
-                double costoPorKM = costoTotal / kmRecorridos;
-                double porcentajeTanque = (litros / CAPACIDAD_TAQUE) * 100;
+            if (km[i] > km[idxMaxKm]) idxMaxKm = i;
+            if (km[i] < km[idxMinKm]) idxMinKm = i;
+        }
 
+        double promedioKm = totalKm / CANTIDAD_CAMIONES;
+        double consumoPromedioFlota = calcularConsumo(totalKm, totalLitros);
 
+        System.out.println("\n======================INFORME DE LA FLOTA======================");
+        System.out.printf("Total kilómetros recorridos....: %10.2f km\n", totalKm);
+        System.out.printf("Total litros consumidos........: %10.2f L\n", totalLitros);
+        System.out.printf("Promedio de km por camión......: %10.2f km\n", promedioKm);
+        System.out.printf("Camión con más kilómetros......: %s (%.2f km)\n", patentes[idxMaxKm], km[idxMaxKm]);
+        System.out.printf("Camión con menos kilómetros....: %s (%.2f km)\n", patentes[idxMinKm], km[idxMinKm]);
+        System.out.printf("Consumo promedio flota.........: %10.2f L/100km\n", consumoPromedioFlota);
+        System.out.println("===============================================================");
 
-                /*        if (consumo100km > maxConsumo) {
-                 maxConsumo = consumo100km;
-                 patenteMaxConsumo = patente;
-                }
+        System.out.println("\n--- CLASIFICACIÓN DE CONSUMO ---");
+        for (int i = 0; i < CANTIDAD_CAMIONES; i++) {
+            double consumo = calcularConsumo(km[i], litros[i]);
+            String clasificacion;
 
-                }
-
-                double costoTotal = totalLitros * PRECIO_LITRO;
-                 double  promedioConsumoFlota = (totalLitros / totalKm) + 100;*/
-
-                System.out.println("\n =====================================");
-                System.out.println("      INFORME CONSOLIDADO          ");
-                System.out.println("\n =====================================");
-                System.out.printf("     CAMION PATENTE :  %s%n", patente);
-                System.out.printf("    Total kilometros recorridos :  %,10.2f km%n", kmRecorridos);
-                System.out.printf("    Total de litros consumidos  :  %,10.2f L%n", consumo100km);
-                System.out.printf("    Costo total de combustible  :  $%9.2fd%n", costoTotal);
-                System.out.printf("    Costo por kilometro         :  $ %,9.2f%n", costoPorKM);
-                System.out.printf("    Porcentaje de tanque        :  $ %,10.2f %% %n", costoPorKM);
-
-                System.out.println("    -------------------------------------");
-                /*System.out.printf("    Camion de mayor consumo     : %s (%.2f L/100km)%n", patenteMaxConsumo, maxConsumo);
-                System.out.println("\n =====================================");
-
-                System.out.println("\n¿Desea iniciar otra ejecucion/comparacion? (C para continuar / S para salir): ");
-                 continuarPrograma = scanner.nextLine().trim();
-
-                } while (continuarPrograma.equalsIgnoreCase("C"));*/
-
-                System.out.println("\n¡Gracias por usar el sistema de gestión de flota!");
-                scanner.close();
+            if (consumo < 8.0) {
+                clasificacion = "EFICIENTE";
+            } else if (consumo <= 12.0) {
+                clasificacion = "NORMAL";
+            } else {
+                clasificacion = "EXCESIVO";
             }
 
+            System.out.printf("Patente: %-10s | Consumo: %6.2f L/100km | Clasificación: %s\n",
+                    patentes[i], consumo, clasificacion);
+        }
+    }
+
+    static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] patentes = new String[CANTIDAD_CAMIONES];
+        double[] kmRecorridos = new double[CANTIDAD_CAMIONES];
+        double[] litrosConsumidos = new double[CANTIDAD_CAMIONES];
+
+        cargarDatos(patentes, kmRecorridos, litrosConsumidos, scanner);
+        mostrarInforme(patentes, kmRecorridos, litrosConsumidos);
+
+        scanner.close();
     }
 }
